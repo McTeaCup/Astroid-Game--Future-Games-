@@ -1,9 +1,22 @@
-#include "SDL.h"
+﻿#pragma once
+#include <SDL.h>
 
 class App
 {
-	SDL_Window* window;
-	SDL_Renderer* renderer;
+public:
+	App();
+	~App();
 
-	window = SDL_CreateWindow("New Widow", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 500, 500, false);
+	void Init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen);
+
+	void HandleEvents();
+	void Render();
+	void Clean();
+
+	bool Running() const {return _isRunning;};
+
+private:
+	bool _isRunning = false;
+	SDL_Window* _window;
+	SDL_Renderer* _renderer;
 };
