@@ -1,20 +1,20 @@
-﻿#include "App.h"
+﻿#include "Game.h"
 #include "TextureManager.h"
 
 #include <iostream>
 
-App::App()
+Game::Game()
 {
 }
 
-App::~App()
+Game::~Game()
 {
 }
 
 SDL_Rect destRect;
 
 
-void App::Init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen)
+void Game::Init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen)
 {
 	int flags = 0;
 	if (fullscreen)
@@ -57,7 +57,7 @@ void App::Init(const char* title, int xpos, int ypos, int width, int height, boo
 	_isRunning = true;
 }
 
-void App::HandleEvents()
+void Game::HandleEvents()
 {
 	SDL_Event SDLevent;
 
@@ -107,8 +107,13 @@ void App::HandleEvents()
 	}
 }
 
+void Game::Update()
+{
+}
+
+
 //Add Draw Stuff here
-void App::DrawPlayer(int screenX, int screenY, int scale)
+void Game::DrawPlayer(int screenX, int screenY, int scale)
 {
 	SDL_Point a = { 0, 40 }, b{ 10, 0 }, c{ 20, 40 }; //{x, y}
 
@@ -120,7 +125,7 @@ void App::DrawPlayer(int screenX, int screenY, int scale)
 	SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 255);
 }
 
-void App::Render()
+void Game::Render()
 {
 	SDL_RenderClear(_renderer);
 	//TODO: Render stuff.
@@ -130,7 +135,7 @@ void App::Render()
 	SDL_RenderPresent(_renderer);
 }
 
-void App::Clean()
+void Game::Clean()
 {
 	SDL_DestroyWindow(_window);
 	SDL_DestroyRenderer(_renderer);

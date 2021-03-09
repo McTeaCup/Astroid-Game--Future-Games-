@@ -1,14 +1,14 @@
 #include <iostream>
 #include "SDL.h"
-#include "App.h"
+#include "Game.h"
 
-App* app = nullptr;
+Game* game = nullptr;
 
 int main(int argc, char *argv[])
 {
-	app = new App();
+	game = new Game();
 
-	app->Init("SDL App", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, false);
+	game->Init("SDL App", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, false);
 
 	const int desiredFPS = 60;
 	const int desiredFrameTime = 1000 / desiredFPS;
@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
 	Uint32 frameStartTime = SDL_GetTicks();
 	int accumulator = 0;
 
-	while (app->Running())
+	while (game->Running())
 	{
 		const Uint32 newTime = SDL_GetTicks();
 		const int deltaTime = newTime - frameStartTime;
@@ -32,15 +32,16 @@ int main(int argc, char *argv[])
 			accumulator -= fixedDeltaTime;
 		}
 
-		app->HandleEvents();
-		app->Render();
+		game->Update();
+		game->HandleEvents();
+		game->Render();
 
 		const int frameTime = SDL_GetTicks() - frameStartTime;
 		if (frameTime < desiredFrameTime)
 			SDL_Delay(desiredFrameTime - frameTime);
 	}
 
-	app->Clean();
+	game->Clean();
 
 	return 0;
 }

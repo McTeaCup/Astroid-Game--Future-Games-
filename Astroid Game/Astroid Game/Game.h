@@ -1,13 +1,29 @@
-#include <iostream>
-#include "SDL.h"
-#include "App.h"
+﻿#pragma once
+#include <SDL.h>
 
 class Game
 {
 public:
-	void Input();
+	Game();
+	~Game();
+
+	void Init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen);
+
+	void HandleEvents();
+	void Update();
+	void Render();
+	void Clean();
+	void DrawPlayer(int screenX, int screenY, int scale);
+
+	bool Running() const {return _isRunning;};
 
 private:
-	SDL_Event SDLevent;
+	bool _isRunning = false;
+	SDL_Window* _window;
+	SDL_Renderer* _renderer;
+
+	SDL_Texture* _playerTexture;
 };
+
+
 
