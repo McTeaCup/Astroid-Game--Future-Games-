@@ -1,7 +1,10 @@
 ﻿#include "Game.h"
 #include "TextureManager.h"
+#include "GameObject.h"
 
 #include <iostream>
+
+GameObject* _player;
 
 Game::Game()
 {
@@ -10,9 +13,6 @@ Game::Game()
 Game::~Game()
 {
 }
-
-SDL_Rect destRect;
-
 
 void Game::Init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen)
 {
@@ -47,14 +47,9 @@ void Game::Init(const char* title, int xpos, int ypos, int width, int height, bo
 	SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 255);
 	std::cout << "Renderer created." << std::endl;
 
-	//Temp stuff for testing image loading.
-	_playerTexture = TextureManager::LoadTexture("Resources/playerShip.png", _renderer);
-	destRect.h = 75;
-	destRect.w = 99;
-	destRect.x = width / 2;
-	destRect.y = height / 2;
-
 	_isRunning = true;
+
+	_player = new GameObject("Resources/playerShip.png", _renderer);
 }
 
 void Game::HandleEvents()
@@ -109,6 +104,7 @@ void Game::HandleEvents()
 
 void Game::Update()
 {
+	_player->Update();
 }
 
 
@@ -128,8 +124,9 @@ void Game::DrawPlayer(int screenX, int screenY, int scale)
 void Game::Render()
 {
 	SDL_RenderClear(_renderer);
-	//TODO: Render stuff.
-	SDL_RenderCopy(_renderer, _playerTexture, NULL, &destRect);
+
+	_player->Render();
+	
 	DrawPlayer(800 / 2, 600 / 2, 1);
 	
 	SDL_RenderPresent(_renderer);
