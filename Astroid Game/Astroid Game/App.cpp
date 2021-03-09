@@ -33,8 +33,8 @@ void App::Init(const char* title, int xpos, int ypos, int width, int height, boo
 	}
 	std::cout << "Window created." << std::endl;
 
-	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
-	if (renderer == nullptr)
+	_renderer = SDL_CreateRenderer(window, -1, 0);
+	if (_renderer == nullptr)
 	{
 		std::cout << SDL_GetError() << std::endl;
 		_isRunning = false;
