@@ -125,6 +125,7 @@ void App::Render()
 	SDL_RenderClear(_renderer);
 	//TODO: Render stuff.
 	SDL_RenderCopy(_renderer, _playerTexture, NULL, &destRect);
+	DrawPlayer(800 / 2, 600 / 2, 1);
 	
 	SDL_RenderPresent(_renderer);
 }
