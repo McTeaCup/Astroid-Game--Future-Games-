@@ -26,12 +26,6 @@ int main(int argc, char *argv[])
 		const int deltaTime = newTime - frameStartTime;
 		frameStartTime = newTime;
 
-		//Checks if the game class exists
-		if (game != NULL)
-		{
-			game->Input();
-		}
-
 		accumulator += deltaTime;
 
 		//std::cout << deltaTime << std::endl;
@@ -55,3 +49,6 @@ int main(int argc, char *argv[])
 
 	return 0;
 }
+
+
+

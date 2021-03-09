@@ -48,15 +48,50 @@ void App::Init(const char* title, int xpos, int ypos, int width, int height, boo
 
 void App::HandleEvents()
 {
-	SDL_Event event;
-	SDL_PollEvent(&event);
-	switch (event.type)
+	SDL_Event SDLevent;
+
+	while (SDL_PollEvent(&SDLevent))
 	{
-	case SDL_QUIT:
-		_isRunning = false;
-		break;
-	default:
-		break;
+		if (SDLevent.type == SDL_QUIT)
+		{
+			_isRunning = false;
+		}
+
+		if (SDLevent.type == SDL_KEYDOWN)
+		{
+			//Arrow keys input
+			#pragma region ArrowKeys
+//Arrow Key Up
+			if (SDLevent.key.keysym.sym == SDLK_UP)
+			{
+				std::cout << "UP ARROW" << std::endl;
+			}
+
+			//Arrow Key Down
+			if (SDLevent.key.keysym.sym == SDLK_DOWN)
+			{
+				std::cout << "DOWN ARROW" << std::endl;
+			}
+
+			//Arrow Key Left
+			if (SDLevent.key.keysym.sym == SDLK_LEFT)
+			{
+				std::cout << "LEFT ARROW" << std::endl;
+			}
+
+			//Arrow Key Right
+			if (SDLevent.key.keysym.sym == SDLK_RIGHT)
+			{
+				std::cout << "RIGHT ARROW" << std::endl;
+			}
+#pragma endregion
+
+			//Space Key
+			if (SDLevent.key.keysym.sym == SDLK_SPACE)
+			{
+				std::cout << "SPACE" << std::endl;
+			}
+		}
 	}
 }
 
