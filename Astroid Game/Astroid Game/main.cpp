@@ -28,12 +28,9 @@ int main(int argc, char *argv[])
 
 		accumulator += deltaTime;
 
-		//std::cout << deltaTime << std::endl;
-
 		while (accumulator >= fixedDeltaTime)
 		{
 			//Things that should run on a fixed step go here.
-			//std::cout << fixedDeltaTime << std::endl;
 			accumulator -= fixedDeltaTime;
 		}
 

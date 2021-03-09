@@ -1,4 +1,5 @@
 ﻿#include "App.h"
+#include "TextureManager.h"
 
 #include <iostream>
 
@@ -9,6 +10,9 @@ App::App()
 App::~App()
 {
 }
+
+SDL_Rect destRect;
+
 
 void App::Init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen)
 {
@@ -42,6 +46,13 @@ void App::Init(const char* title, int xpos, int ypos, int width, int height, boo
 	}
 	SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 255);
 	std::cout << "Renderer created." << std::endl;
+
+	//Temp stuff for testing image loading.
+	_playerTexture = TextureManager::LoadTexture("Resources/playerShip.png", _renderer);
+	destRect.h = 75;
+	destRect.w = 99;
+	destRect.x = width / 2;
+	destRect.y = height / 2;
 
 	_isRunning = true;
 }
@@ -99,6 +110,8 @@ void App::Render()
 {
 	SDL_RenderClear(_renderer);
 	//TODO: Render stuff.
+	SDL_RenderCopy(_renderer, _playerTexture, NULL, &destRect);
+	
 	SDL_RenderPresent(_renderer);
 }
 

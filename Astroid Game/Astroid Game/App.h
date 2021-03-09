@@ -19,6 +19,8 @@ private:
 	bool _isRunning = false;
 	SDL_Window* _window;
 	SDL_Renderer* _renderer;
+
+	SDL_Texture* _playerTexture;
 };
 
 
