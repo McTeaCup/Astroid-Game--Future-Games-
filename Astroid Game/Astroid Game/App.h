@@ -12,6 +12,7 @@ public:
 	void HandleEvents();
 	void Render();
 	void Clean();
+	void DrawPlayer(int screenX, int screenY, int scale);
 
 	bool Running() const {return _isRunning;};
 

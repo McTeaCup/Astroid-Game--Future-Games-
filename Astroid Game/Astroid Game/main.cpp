@@ -1,10 +1,8 @@
 #include <iostream>
 #include "SDL.h"
 #include "App.h"
-#include "Game.h"
 
 App* app = nullptr;
-Game* game = new Game;
 
 int main(int argc, char *argv[])
 {
@@ -22,6 +20,7 @@ int main(int argc, char *argv[])
 
 	while (app->Running())
 	{
+		app->DrawPlayer(800/2, 600 / 2, 1);
 		const Uint32 newTime = SDL_GetTicks();
 		const int deltaTime = newTime - frameStartTime;
 		frameStartTime = newTime;
@@ -38,7 +37,7 @@ int main(int argc, char *argv[])
 		}
 
 		app->HandleEvents();
-		app->Render();
+		//app->Render();
 
 		const int frameTime = SDL_GetTicks() - frameStartTime;
 		if (frameTime < desiredFrameTime)

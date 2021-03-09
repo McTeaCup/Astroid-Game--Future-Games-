@@ -57,6 +57,7 @@ void App::HandleEvents()
 			_isRunning = false;
 		}
 
+		//Takes Input from player
 		if (SDLevent.type == SDL_KEYDOWN)
 		{
 			//Arrow keys input
@@ -93,6 +94,19 @@ void App::HandleEvents()
 			}
 		}
 	}
+}
+
+//Add Draw Stuff here
+void App::DrawPlayer(int screenX, int screenY, int scale)
+{
+	SDL_Point a = { 0, 40 }, b{ 10, 0 }, c{ 20, 40 }; //{x, y}
+
+	SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255);
+	SDL_RenderDrawLine(_renderer, a.x + screenX, a.y + screenY, b.x + screenX, b.y + screenY);
+	SDL_RenderDrawLine(_renderer, a.x + screenX, a.y + screenY, c.x + screenX, c.y + screenY);
+	SDL_RenderDrawLine(_renderer, b.x + screenX, b.y + screenY, c.x + screenX, c.y + screenY);
+	SDL_RenderPresent(_renderer);						//Updates the rendering
+	SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 255);
 }
 
 void App::Render()
