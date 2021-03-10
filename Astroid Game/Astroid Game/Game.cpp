@@ -66,37 +66,57 @@ void Game::HandleEvents()
 		//Takes Input from player
 		if (SDLevent.type == SDL_KEYDOWN)
 		{
-			//Arrow keys input
+			switch (SDLevent.key.keysym.sym)
+			{
 			#pragma region ArrowKeys
-//Arrow Key Up
-			if (SDLevent.key.keysym.sym == SDLK_UP)
+			
+			//Arrow Key Up
+			case SDLK_UP:
 			{
 				std::cout << "UP ARROW" << std::endl;
+				_player->_yvelocity += 0.1f;
+				std::cout << _player->_yvelocity << std::endl;
+				break;
 			}
 
 			//Arrow Key Down
-			if (SDLevent.key.keysym.sym == SDLK_DOWN)
+			case SDLK_DOWN:
 			{
 				std::cout << "DOWN ARROW" << std::endl;
+				_player->_yvelocity -= 0.1f;
+				std::cout << _player->_yvelocity << std::endl;
+				break;
 			}
 
 			//Arrow Key Left
-			if (SDLevent.key.keysym.sym == SDLK_LEFT)
+			case SDLK_LEFT:
 			{
 				std::cout << "LEFT ARROW" << std::endl;
+				_player->angle -= 1.0f;
+				std::cout << _player->angle << std::endl;
+				break;
 			}
 
 			//Arrow Key Right
-			if (SDLevent.key.keysym.sym == SDLK_RIGHT)
+			case SDLK_RIGHT:
 			{
 				std::cout << "RIGHT ARROW" << std::endl;
+				_player->angle += 1.0f;
+				std::cout << _player->angle << std::endl;
+				break;
 			}
+
 #pragma endregion
 
 			//Space Key
-			if (SDLevent.key.keysym.sym == SDLK_SPACE)
+			case SDLK_SPACE:
 			{
 				std::cout << "SPACE" << std::endl;
+				break;
+			}
+			
+			default:
+				break;
 			}
 		}
 	}
@@ -107,27 +127,11 @@ void Game::Update()
 	_player->Update();
 }
 
-
-//Add Draw Stuff here
-void Game::DrawPlayer(int screenX, int screenY, int scale)
-{
-	SDL_Point a = { 0, 40 }, b{ 10, 0 }, c{ 20, 40 }; //{x, y}
-
-	SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255);
-	SDL_RenderDrawLine(_renderer, a.x + screenX, a.y + screenY, b.x + screenX, b.y + screenY);
-	SDL_RenderDrawLine(_renderer, a.x + screenX, a.y + screenY, c.x + screenX, c.y + screenY);
-	SDL_RenderDrawLine(_renderer, b.x + screenX, b.y + screenY, c.x + screenX, c.y + screenY);
-	SDL_RenderPresent(_renderer);						//Updates the rendering
-	SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 255);
-}
-
 void Game::Render()
 {
 	SDL_RenderClear(_renderer);
 
 	_player->Render();
-	
-	DrawPlayer(800 / 2, 600 / 2, 1);
 	
 	SDL_RenderPresent(_renderer);
 }

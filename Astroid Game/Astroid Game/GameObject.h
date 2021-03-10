@@ -10,10 +10,16 @@ public:
 
 	void Update();
 	void Render();
+	void Rotate(float angle);
+	
+	float _xvelocity = 0;
+	float _yvelocity = 0;
+	float angle = 0;
 
 private:
-	int _xpos;
-	int _ypos;
+	float _xpos;
+	float _ypos;
+
 
 	SDL_Texture* _objTexture;
 	SDL_Rect _srcRect;
