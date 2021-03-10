@@ -1,5 +1,6 @@
 #include "GameObject.h"
 #include "TextureManager.h"
+#include <iostream>
 
 
 GameObject::GameObject(const char* texturPath, SDL_Renderer* renderer)
@@ -30,11 +31,6 @@ void GameObject::Update()
 
 void GameObject::Render()
 {
-	SDL_RenderCopyEx(_renderer, _objTexture, &_srcRect, &_destRect, angle, NULL, SDL_FLIP_HORIZONTAL);
+	SDL_RenderCopyEx(_renderer, _objTexture, &_srcRect, &_destRect, angle,	NULL, SDL_FLIP_NONE);
 }
 
-void GameObject::Rotate(float angle)
-{
-	SDL_RendererFlip flip = SDL_FLIP_NONE;
-	SDL_RenderCopyEx(_renderer, _objTexture, &_srcRect, &_destRect, angle, NULL, flip);
-}

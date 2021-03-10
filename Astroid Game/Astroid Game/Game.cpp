@@ -74,7 +74,7 @@ void Game::HandleEvents()
 			case SDLK_UP:
 			{
 				std::cout << "UP ARROW" << std::endl;
-				_player->_yvelocity += 0.1f;
+				_player->_yvelocity -= 0.1f;
 				std::cout << _player->_yvelocity << std::endl;
 				break;
 			}
@@ -83,7 +83,7 @@ void Game::HandleEvents()
 			case SDLK_DOWN:
 			{
 				std::cout << "DOWN ARROW" << std::endl;
-				_player->_yvelocity -= 0.1f;
+				_player->_yvelocity += 0.1f;
 				std::cout << _player->_yvelocity << std::endl;
 				break;
 			}
@@ -92,7 +92,14 @@ void Game::HandleEvents()
 			case SDLK_LEFT:
 			{
 				std::cout << "LEFT ARROW" << std::endl;
-				_player->angle -= 1.0f;
+				if (_player->angle < 360 || _player->angle > -360)
+				{
+					_player->angle -= 1.0f;
+				}
+				else
+				{
+					_player->angle = 0;
+				}
 				std::cout << _player->angle << std::endl;
 				break;
 			}
@@ -101,7 +108,14 @@ void Game::HandleEvents()
 			case SDLK_RIGHT:
 			{
 				std::cout << "RIGHT ARROW" << std::endl;
-				_player->angle += 1.0f;
+				if (_player->angle > 360 || _player->angle < 360)
+				{
+					_player->angle += 1.0f;
+				}
+				else
+				{
+					_player->angle = 0;
+				}
 				std::cout << _player->angle << std::endl;
 				break;
 			}
