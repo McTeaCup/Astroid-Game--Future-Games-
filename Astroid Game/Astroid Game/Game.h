@@ -13,14 +13,14 @@ public:
 	void Update();
 	void Render();
 	void Clean();
-	void DrawPlayer(int screenX, int screenY, int scale);
 
-	bool Running() const {return _isRunning;};
+	bool Running() const {return _isRunning;}
+
+	static SDL_Renderer* renderer;
 
 private:
 	bool _isRunning = false;
 	SDL_Window* _window;
-	SDL_Renderer* _renderer;
 };
 
 

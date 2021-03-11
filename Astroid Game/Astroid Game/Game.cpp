@@ -6,6 +6,8 @@
 
 GameObject* _player;
 
+SDL_Renderer* Game::renderer = nullptr;
+ 
 Game::Game()
 {
 }
@@ -37,19 +39,19 @@ void Game::Init(const char* title, int xpos, int ypos, int width, int height, bo
 	}
 	std::cout << "Window created." << std::endl;
 
-	_renderer = SDL_CreateRenderer(window, -1, 0);
-	if (_renderer == nullptr)
+	renderer = SDL_CreateRenderer(window, -1, 0);
+	if (renderer == nullptr)
 	{
 		std::cout << SDL_GetError() << std::endl;
 		_isRunning = false;
 		return;
 	}
-	SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 255);
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	std::cout << "Renderer created." << std::endl;
 
 	_isRunning = true;
 
-	_player = new GameObject("Resources/playerShip.png", _renderer);
+	_player = new GameObject("Resources/playerShip.png");
 }
 
 void Game::HandleEvents()
@@ -143,16 +145,16 @@ void Game::Update()
 
 void Game::Render()
 {
-	SDL_RenderClear(_renderer);
+	SDL_RenderClear(renderer);
 
 	_player->Render();
 	
-	SDL_RenderPresent(_renderer);
+	SDL_RenderPresent(renderer);
 }
 
 void Game::Clean()
 {
 	SDL_DestroyWindow(_window);
-	SDL_DestroyRenderer(_renderer);
+	SDL_DestroyRenderer(renderer);
 	SDL_Quit();
 }
