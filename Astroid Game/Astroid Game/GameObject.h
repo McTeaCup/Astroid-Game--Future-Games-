@@ -15,6 +15,7 @@ public:
 	float _xvelocity = 0;
 	float _yvelocity = 0;
 	float angle = 0;
+	int windowSizeX = 0, windowSizeY = 0;
 
 private:
 	float _xpos;

@@ -29,7 +29,7 @@ void GameObject::Update()
 	_destRect.w = _srcRect.w * 2;
 	_destRect.h = _srcRect.h * 2;
 
-	ScreenWraping(800, 600);
+	ScreenWraping(windowSizeX, windowSizeY);
 }
 
 void GameObject::Render()
@@ -44,7 +44,6 @@ void GameObject::ScreenWraping(int Xscreen, int Yscreen)
 	if (_ypos + (_destRect.h / 2) > Yscreen)
 	{
 		_ypos = 0 - (_destRect.h / 2);
-		std::cout << _ypos << std::endl;
 	}
 
 	if (_ypos + (_destRect.h / 2) < 0)

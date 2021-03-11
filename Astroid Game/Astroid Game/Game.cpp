@@ -49,9 +49,11 @@ void Game::Init(const char* title, int xpos, int ypos, int width, int height, bo
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	std::cout << "Renderer created." << std::endl;
 
-	_isRunning = true;
-
 	_player = new GameObject("Resources/playerShip.png");
+	_player->windowSizeX = width;
+	_player->windowSizeY = height;
+
+	_isRunning = true;
 }
 
 void Game::HandleEvents()
