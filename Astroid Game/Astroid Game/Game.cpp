@@ -2,6 +2,7 @@
 #include "TextureManager.h"
 #include "GameObject.h"
 #include "Components.h"
+#include "ScreenWraping.h"
 
 #include <iostream>
 
@@ -14,6 +15,7 @@ Entity& playerEntity(entityManager.AddEntity());
 
 GameObject* _player;
 GameObject* _astroid;
+ScreenWrapign* _screenwrap = new ScreenWrapign();
 
 Game::Game()
 {
@@ -56,16 +58,11 @@ void Game::Init(const char* title, int xpos, int ypos, int width, int height, bo
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	std::cout << "Renderer created." << std::endl;
 
-	_player = new GameObject();
-	_player->OnSpawn(width, height, false);
 
 	_astroid = new GameObject();
 	_astroid->OnSpawn(100, 100, true);
 
-	_astroid->windowSizeX = width;
-	_astroid->windowSizeY = height;
-	_player->windowSizeX = width;
-	_player->windowSizeY = height;
+	_screenwrap->SetScreenSize(width, height);
 
 	_player = new GameObject();
 
@@ -116,7 +113,7 @@ void Game::HandleEvents()
 				if (_player->angle < 360 || _player->angle > -360)
 				{
 					_player->angle -= 1.0f;
-					playerEntity.GetComponent<Transform>().angle -= 1.0f;
+					playerEntity.GetComponent<Transform>().angle -= 10.0f;
 				}
 				else
 				{
@@ -133,7 +130,7 @@ void Game::HandleEvents()
 				if (_player->angle > 360 || _player->angle < 360)
 				{
 					_player->angle += 1.0f;
-					playerEntity.GetComponent<Transform>().angle += 1.0f;
+					playerEntity.GetComponent<Transform>().angle += 10.0f;
 				}
 				else
 				{
@@ -163,8 +160,8 @@ void Game::Update()
 {
 	entityManager.Refresh();
 	entityManager.Update();
-	_player->Update();
-	_astroid->Update();
+
+	_screenwrap->WrapWindow(playerEntity);
 }
 
 void Game::Render()

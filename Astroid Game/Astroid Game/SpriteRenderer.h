@@ -38,6 +38,11 @@ public:
 		_texture = TextureManager::LoadTexture(path);
 	}
 
+	SDL_Rect GetRect()
+	{
+		return _srcRect;
+	}
+
 	void Init() override
 	{
 		_transform = &entity->GetComponent<Transform>();

@@ -1,5 +1,6 @@
 #include "GameObject.h"
 #include "TextureManager.h"
+#include "ScreenWraping.h"
 #include <iostream>
 #include "Game.h"
 
@@ -60,7 +61,8 @@ void GameObject::OnSpawn(int xAxis, int yAxis, bool isAstroid)
 void GameObject::Update()
 {
 	ObjectMovement();
-	ScreenWraping(windowSizeX, windowSizeY);
+
+	//ScreenWraping(windowSizeX, windowSizeY);
 }
 
 void GameObject::Render()
@@ -84,6 +86,7 @@ void GameObject::ObjectMovement()
 	_destRect.h = _srcRect.h * 2;
 }
 
+/*
 void GameObject::ScreenWraping(int Xscreen, int Yscreen)
 {
 #pragma region Y-AxisWraping
@@ -113,4 +116,5 @@ void GameObject::ScreenWraping(int Xscreen, int Yscreen)
 	}
 #pragma endregion
 }
+*/
 

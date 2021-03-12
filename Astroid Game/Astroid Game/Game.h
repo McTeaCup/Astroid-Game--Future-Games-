@@ -13,7 +13,7 @@ public:
 	void Update();
 	void Render();
 	void Clean();
-
+	
 	bool Running() const {return _isRunning;}
 
 	static SDL_Renderer* renderer;
