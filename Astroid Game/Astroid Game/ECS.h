@@ -14,7 +14,7 @@ using ComponentID = std::size_t;
 
 inline ComponentID GetComponentTypeID()
 {
-	static ComponentID lastID = 0;
+	static ComponentID lastID = 0u;
 	return lastID++;
 }
 
@@ -87,8 +87,7 @@ public:
 		_components.emplace_back(std::move(uniquePtr));
 
 		_componentArray[GetComponentTypeID<T>()] = c;
-		_componentBitSet.set(GetComponentTypeID());
-
+		_componentBitSet.set(GetComponentTypeID<T>());
 		c->Init();
 		return *c;
 	}

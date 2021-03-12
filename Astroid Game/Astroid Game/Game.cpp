@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "Components.h"
 #include "ScreenWraping.h"
+#include "PhysicsObjectFactory.h"
 
 #include <iostream>
 
@@ -145,6 +146,7 @@ void Game::HandleEvents()
 			case SDLK_SPACE:
 			{
 				std::cout << "SPACE" << std::endl;
+				PhysicsObjectFactory::GetNew("Resources/laserRed.png");
 				break;
 			}
 

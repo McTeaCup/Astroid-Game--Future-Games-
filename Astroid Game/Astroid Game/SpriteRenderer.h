@@ -1,9 +1,7 @@
 #pragma once
-
-#include "Components.h"
+#include "ECS.h"
 #include "SDL.h"
-
-#include <iostream>
+#include "TextureManager.h"
 
 class SpriteRenderer : public Component
 {

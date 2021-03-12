@@ -1,6 +1,6 @@
 #pragma once
-#include "ECS.h"
-#include "Game.h"
+
+class Entity;
 
 class PhysicsObjectFactory
 {
