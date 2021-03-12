@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <SDL.h>
+#include "ECS.h"
 
 class Game
 {
@@ -16,6 +17,7 @@ public:
 	
 	bool Running() const {return _isRunning;}
 
+	static Manager* entityManager;
 	static SDL_Renderer* renderer;
 	static SDL_Event event;
 

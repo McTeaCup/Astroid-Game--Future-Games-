@@ -6,12 +6,11 @@
 
 #include <iostream>
 
-Manager entityManager;
-
+Manager* Game::entityManager = new Manager();
 SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
 
-Entity& playerEntity(entityManager.AddEntity());
+Entity& playerEntity(Game::entityManager->AddEntity());
 
 GameObject* _player;
 GameObject* _astroid;
@@ -158,8 +157,8 @@ void Game::HandleEvents()
 
 void Game::Update()
 {
-	entityManager.Refresh();
-	entityManager.Update();
+	entityManager->Refresh();
+	entityManager->Update();
 
 	_screenwrap->WrapWindow(playerEntity);
 }
@@ -168,7 +167,7 @@ void Game::Render()
 {
 	SDL_RenderClear(renderer);
 
-	entityManager.Draw();
+	entityManager->Draw();
 	_player->Render();
 	_astroid->Render();
 

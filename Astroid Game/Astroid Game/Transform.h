@@ -7,6 +7,7 @@ class Transform : public Component
 {
 public:
 	Eigen::Vector2f position;
+	Eigen::Vector2f scale;
 	float angle;
 
 
