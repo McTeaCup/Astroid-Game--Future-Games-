@@ -52,6 +52,9 @@ public:
 		_srcRect.x = _srcRect.y = 0;
 		_srcRect.w = _dstRect.w = w;
 		_srcRect.h = _dstRect.h = h;
+
+		_dstRect.x = _transform->position.x() - _dstRect.w / 2;
+		_dstRect.y = _transform->position.y() - _dstRect.h / 2;
 	}
 
 	void Update() override
