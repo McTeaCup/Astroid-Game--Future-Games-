@@ -96,7 +96,7 @@ void Game::HandleEvents()
 			{
 				std::cout << "UP ARROW" << std::endl;
 				_player->_yvelocity -= 0.1f;
-				playerEntity.GetComponent<PhysicsComponent>().velocity.y() -= 0.1f;
+				playerEntity.GetComponent<PhysicsComponent>().velocity += playerEntity.GetComponent<Transform>().GetForward() * 0.1f;
 				break;
 			}
 
@@ -105,7 +105,7 @@ void Game::HandleEvents()
 			{
 				std::cout << "DOWN ARROW" << std::endl;
 				_player->_yvelocity += 0.1f;
-				playerEntity.GetComponent<PhysicsComponent>().velocity.y() += 0.1f;
+				playerEntity.GetComponent<PhysicsComponent>().velocity -= playerEntity.GetComponent<Transform>().GetForward() * 0.1f;
 				break;
 			}
 
