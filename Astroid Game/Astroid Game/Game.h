@@ -17,6 +17,7 @@ public:
 	bool Running() const {return _isRunning;}
 
 	static SDL_Renderer* renderer;
+	static SDL_Event event;
 
 private:
 	bool _isRunning = false;

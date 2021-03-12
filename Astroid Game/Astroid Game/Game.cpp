@@ -6,12 +6,14 @@
 #include <iostream>
 
 Manager entityManager;
+
+SDL_Renderer* Game::renderer = nullptr;
+SDL_Event Game::event;
+
 Entity& playerEntity(entityManager.AddEntity());
 
 GameObject* _player;
 GameObject* _astroid;
-
-SDL_Renderer* Game::renderer = nullptr;
 
 Game::Game()
 {
@@ -67,26 +69,25 @@ void Game::Init(const char* title, int xpos, int ypos, int width, int height, bo
 
 	_player = new GameObject();
 
-	playerEntity.AddComponent <Transform>();
-	playerEntity.AddComponent<SpriteRenderer>("Resources/playerShip.png");
+	playerEntity.AddComponent <Transform>(100, 100);
+	playerEntity.AddComponent<SpriteRenderer>("Resources/playerShip.png", 90);
+	playerEntity.AddComponent<PhysicsComponent>();
 	_isRunning = true;
 }
 
 void Game::HandleEvents()
 {
-	SDL_Event SDLevent;
-
-	while (SDL_PollEvent(&SDLevent))
+	while (SDL_PollEvent(&event))
 	{
-		if (SDLevent.type == SDL_QUIT)
+		if (event.type == SDL_QUIT)
 		{
 			_isRunning = false;
 		}
 
 		//Takes Input from player
-		if (SDLevent.type == SDL_KEYDOWN)
+		if (event.type == SDL_KEYDOWN)
 		{
-			switch (SDLevent.key.keysym.sym)
+			switch (event.key.keysym.sym)
 			{
 #pragma region ArrowKeys
 
@@ -95,7 +96,7 @@ void Game::HandleEvents()
 			{
 				std::cout << "UP ARROW" << std::endl;
 				_player->_yvelocity -= 0.1f;
-				std::cout << _player->_yvelocity << std::endl;
+				playerEntity.GetComponent<PhysicsComponent>().velocity.y() -= 0.1f;
 				break;
 			}
 
@@ -104,7 +105,7 @@ void Game::HandleEvents()
 			{
 				std::cout << "DOWN ARROW" << std::endl;
 				_player->_yvelocity += 0.1f;
-				std::cout << _player->_yvelocity << std::endl;
+				playerEntity.GetComponent<PhysicsComponent>().velocity.y() += 0.1f;
 				break;
 			}
 
@@ -115,6 +116,7 @@ void Game::HandleEvents()
 				if (_player->angle < 360 || _player->angle > -360)
 				{
 					_player->angle -= 1.0f;
+					playerEntity.GetComponent<Transform>().angle -= 1.0f;
 				}
 				else
 				{
@@ -131,6 +133,7 @@ void Game::HandleEvents()
 				if (_player->angle > 360 || _player->angle < 360)
 				{
 					_player->angle += 1.0f;
+					playerEntity.GetComponent<Transform>().angle += 1.0f;
 				}
 				else
 				{

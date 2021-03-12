@@ -14,10 +14,23 @@ private:
 	SDL_Rect _dstRect;
 
 public:
+	float offsetAngle;
+	
 	SpriteRenderer() = default;
 	SpriteRenderer(const char* path)
 	{
 		SetTexture(path);
+		offsetAngle = 0;
+	}
+	SpriteRenderer(const char* path, float offsetAngle)
+	{
+		SetTexture(path);
+		this->offsetAngle = offsetAngle;
+	}
+	
+	~SpriteRenderer()
+	{
+		SDL_DestroyTexture(_texture);
 	}
 
 	void SetTexture(const char* path)
@@ -46,6 +59,6 @@ public:
 
 	void Draw() override
 	{
-		TextureManager::Draw(_texture, _srcRect, _dstRect);
+		TextureManager::Draw(_texture, _srcRect, _dstRect, _transform->angle + offsetAngle);
 	}
 };
