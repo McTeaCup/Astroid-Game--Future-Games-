@@ -2,7 +2,7 @@
 
 class Entity;
 
-class PhysicsObjectFactory
+class ProjectileFactory
 {
 public:
 	static Entity* GetNew(const char* spritePath);

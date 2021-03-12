@@ -27,7 +27,7 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PhysicsObjectFactory.cpp">
+    <ClCompile Include="ProjectileFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -59,7 +59,7 @@
     <ClInclude Include="MathHelpers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PhysicsObjectFactory.h">
+    <ClInclude Include="ProjectileFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

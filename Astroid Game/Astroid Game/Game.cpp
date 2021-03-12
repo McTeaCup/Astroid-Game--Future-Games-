@@ -3,7 +3,7 @@
 #include "GameObject.h"
 #include "Components.h"
 #include "ScreenWraping.h"
-#include "PhysicsObjectFactory.h"
+#include "ProjectileFactory.h"
 
 #include <iostream>
 
@@ -146,7 +146,10 @@ void Game::HandleEvents()
 			case SDLK_SPACE:
 			{
 				std::cout << "SPACE" << std::endl;
-				PhysicsObjectFactory::GetNew("Resources/laserRed.png");
+				Entity * projectile = ProjectileFactory::GetNew("Resources/laserRed.png");
+				projectile->GetComponent<Transform>().angle = playerEntity.GetComponent<Transform>().angle;
+				projectile->GetComponent<Transform>().position = playerEntity.GetComponent<Transform>().position;
+				projectile->GetComponent<PhysicsComponent>().velocity = projectile->GetComponent<Transform>().GetForward() * 3;
 				break;
 			}
 

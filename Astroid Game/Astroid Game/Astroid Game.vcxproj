@@ -146,7 +146,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="PhysicsObjectFactory.cpp" />
+    <ClCompile Include="ProjectileFactory.cpp" />
     <ClCompile Include="TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -156,7 +156,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="MathHelpers.h" />
     <ClInclude Include="PhysicsComponent.h" />
-    <ClInclude Include="PhysicsObjectFactory.h" />
+    <ClInclude Include="ProjectileFactory.h" />
     <ClInclude Include="SpriteRenderer.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Transform.h" />
