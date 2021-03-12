@@ -5,11 +5,13 @@ class GameObject
 {
 
 public:
-	GameObject(const char* texturePath);
+	GameObject(/*const char* texturePath*/);
 	~GameObject();
 
+	void OnSpawn(int xAxis, int yAxis, bool isAstorid);
 	void Update();
 	void Render();
+	void ObjectMovement();
 	void ScreenWraping(int Xscreen, int Yscreen);
 
 	float _xvelocity = 0;
@@ -20,6 +22,7 @@ public:
 private:
 	float _xpos;
 	float _ypos;
+	bool _isAstroid;
 
 	SDL_Texture* _objTexture;
 	SDL_Rect _srcRect;

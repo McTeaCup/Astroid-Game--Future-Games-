@@ -5,9 +5,10 @@
 #include <iostream>
 
 GameObject* _player;
+GameObject* _astroid;
 
 SDL_Renderer* Game::renderer = nullptr;
- 
+
 Game::Game()
 {
 }
@@ -49,7 +50,14 @@ void Game::Init(const char* title, int xpos, int ypos, int width, int height, bo
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	std::cout << "Renderer created." << std::endl;
 
-	_player = new GameObject("Resources/playerShip.png");
+	_player = new GameObject();
+	_player->OnSpawn(width, height, false);
+
+	_astroid = new GameObject();
+	_astroid->OnSpawn(100, 100, true);
+
+	_astroid->windowSizeX = width;
+	_astroid->windowSizeY = height;
 	_player->windowSizeX = width;
 	_player->windowSizeY = height;
 
@@ -72,9 +80,9 @@ void Game::HandleEvents()
 		{
 			switch (SDLevent.key.keysym.sym)
 			{
-			#pragma region ArrowKeys
-			
-			//Arrow Key Up
+#pragma region ArrowKeys
+
+				//Arrow Key Up
 			case SDLK_UP:
 			{
 				std::cout << "UP ARROW" << std::endl;
@@ -132,7 +140,7 @@ void Game::HandleEvents()
 				std::cout << "SPACE" << std::endl;
 				break;
 			}
-			
+
 			default:
 				break;
 			}
@@ -143,6 +151,7 @@ void Game::HandleEvents()
 void Game::Update()
 {
 	_player->Update();
+	_astroid->Update();
 }
 
 void Game::Render()
@@ -150,7 +159,8 @@ void Game::Render()
 	SDL_RenderClear(renderer);
 
 	_player->Render();
-	
+	_astroid->Render();
+
 	SDL_RenderPresent(renderer);
 }
 

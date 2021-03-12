@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 	game = new Game();
 
 	game->Init("SDL App", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1000, 1120, false);
-
+	
 	const int desiredFPS = 60;
 	const int desiredFrameTime = 1000 / desiredFPS;
 
