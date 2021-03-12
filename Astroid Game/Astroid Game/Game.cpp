@@ -65,7 +65,7 @@ void Game::Init(const char* title, int xpos, int ypos, int width, int height, bo
 	_player->windowSizeX = width;
 	_player->windowSizeY = height;
 
-	_player = new GameObject("Resources/playerShip.png");
+	_player = new GameObject();
 
 	playerEntity.AddComponent <Transform>();
 	playerEntity.AddComponent<SpriteRenderer>("Resources/playerShip.png");
