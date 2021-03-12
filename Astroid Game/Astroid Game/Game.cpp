@@ -1,8 +1,12 @@
 ﻿#include "Game.h"
 #include "TextureManager.h"
 #include "GameObject.h"
+#include "Components.h"
 
 #include <iostream>
+
+Manager entityManager;
+Entity& playerEntity(entityManager.AddEntity());
 
 GameObject* _player;
 GameObject* _astroid;
@@ -61,6 +65,10 @@ void Game::Init(const char* title, int xpos, int ypos, int width, int height, bo
 	_player->windowSizeX = width;
 	_player->windowSizeY = height;
 
+	_player = new GameObject("Resources/playerShip.png");
+
+	playerEntity.AddComponent <Transform>();
+	playerEntity.AddComponent<SpriteRenderer>("Resources/playerShip.png");
 	_isRunning = true;
 }
 
@@ -150,6 +158,8 @@ void Game::HandleEvents()
 
 void Game::Update()
 {
+	entityManager.Refresh();
+	entityManager.Update();
 	_player->Update();
 	_astroid->Update();
 }
@@ -158,6 +168,7 @@ void Game::Render()
 {
 	SDL_RenderClear(renderer);
 
+	entityManager.Draw();
 	_player->Render();
 	_astroid->Render();
 
