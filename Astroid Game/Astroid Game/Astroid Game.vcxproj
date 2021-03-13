@@ -157,6 +157,7 @@
     <ClInclude Include="MathHelpers.h" />
     <ClInclude Include="PhysicsComponent.h" />
     <ClInclude Include="ProjectileFactory.h" />
+    <ClInclude Include="ScreenWraping.h" />
     <ClInclude Include="SpriteRenderer.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Transform.h" />

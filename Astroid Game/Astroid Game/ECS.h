@@ -133,4 +133,9 @@ public:
 
 		return *newEntity;
 	}
+
+	std::vector<std::unique_ptr<Entity>>* GetEntities()
+	{
+		return &_entities;
+	}
 };
