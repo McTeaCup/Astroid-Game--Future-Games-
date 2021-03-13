@@ -13,6 +13,7 @@ SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
 
 Entity& playerEntity(Game::entityManager->AddEntity());
+Entity& astroid(Game::entityManager->AddEntity());
 
 GameObject* _player;
 GameObject* _astroid;
@@ -58,7 +59,6 @@ void Game::Init(const char* title, int xpos, int ypos, int width, int height, bo
 	}
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	std::cout << "Renderer created." << std::endl;
-
 
 	_astroid = new GameObject();
 	_astroid->OnSpawn(100, 100, true);
@@ -147,7 +147,7 @@ void Game::HandleEvents()
 			case SDLK_SPACE:
 			{
 				std::cout << "SPACE" << std::endl;
-				Entity * projectile = ProjectileFactory::GetNew("Resources/laserRed.png");
+				Entity* projectile = ProjectileFactory::GetNew("Resources/laserRed.png");
 				projectile->GetComponent<Transform>().angle = playerEntity.GetComponent<Transform>().angle;
 				projectile->GetComponent<Transform>().position = playerEntity.GetComponent<Transform>().position;
 				projectile->GetComponent<PhysicsComponent>().velocity = projectile->GetComponent<Transform>().GetForward() * 3;
@@ -166,7 +166,10 @@ void Game::Update()
 	entityManager->Refresh();
 	entityManager->Update();
 
-	_screenwrap->WrapWindow(playerEntity);
+	for (std::unique_ptr<Entity>& e : *entityManager->GetEntities())
+	{
+		_screenwrap->WrapWindow(&e.get()->GetComponent<Transform>());
+	}
 }
 
 void Game::Render()

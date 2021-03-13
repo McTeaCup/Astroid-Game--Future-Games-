@@ -14,35 +14,35 @@ public:
 		_screenHight = ySize;
 	}
 
-	void WrapWindow(Entity& objTransform)
+	void WrapWindow(Transform* objTransform)
 	{
-		float objXpos = objTransform.GetComponent<Transform>().position.x();
-		float objYpos = objTransform.GetComponent<Transform>().position.y();
+		float objXpos = objTransform->position.x();
+		float objYpos = objTransform->position.y();
 
 		#pragma region Y-AxisWraping
 		//Teleports up
 		if (objYpos > _screenHight)
 		{
-			objTransform.GetComponent<Transform>().position.y() = 0;
+			objTransform->position.y() = 0;
 		}
 
 		//Teleports down
 		if (objYpos < 0)
 		{
-			objTransform.GetComponent<Transform>().position.y() = _screenHight;
+			objTransform->position.y() = _screenHight;
 		}
 #pragma endregion
 		#pragma region X-AxisWraping
 		//Teleports up
 		if (objXpos > _screenHight)
 		{
-			objTransform.GetComponent<Transform>().position.x() = 0;
+			objTransform->position.x() = 0;
 		}
 
 		//Teleports down
 		if (objXpos < 0)
 		{
-			objTransform.GetComponent<Transform>().position.x() = _screenWidhth;
+			objTransform->position.x() = _screenWidhth;
 		}
 #pragma endregion
 	}
