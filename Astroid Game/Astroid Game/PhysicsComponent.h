@@ -9,6 +9,7 @@ private:
 	Transform* _transform;
 public:
 	Eigen::Vector2f velocity;
+	float constRot;
 
 	void Init() override
 	{
@@ -21,5 +22,6 @@ public:
 	void Update() override
 	{
 		_transform->position += velocity;
+		_transform->angle += constRot;
 	}
 };

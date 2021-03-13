@@ -21,6 +21,8 @@ public:
 		astroid.AddComponent<PhysicsComponent>();
 		astroid.AddComponent<ScreenWrapign>();
 		astroid.GetComponent<PhysicsComponent>().velocity = Eigen::Vector2f(rand() % 2, rand() % 4);
+		astroid.GetComponent<PhysicsComponent>().constRot = rand() % 3;
+
 	}
 
 	void OnDestroyAstroid(Eigen::Vector2f astroidPosition)
