@@ -5,18 +5,17 @@
 #include "Components.h"
 #include "ScreenWraping.h"
 #include "ProjectileFactory.h"
+#include "Astroid.h"
 
 #include <iostream>
 
 Manager* Game::entityManager = new Manager();
+Astroid* astroidProperties = nullptr;
 SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
 
 Entity& playerEntity(Game::entityManager->AddEntity());
-Entity& astroid(Game::entityManager->AddEntity());
 
-GameObject* _player;
-GameObject* _astroid;
 ScreenWrapign* _screenwrap = new ScreenWrapign();
 
 Game::Game()
@@ -29,6 +28,7 @@ Game::~Game()
 
 void Game::Init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen)
 {
+	#pragma region WindowPrep
 	int flags = 0;
 	if (fullscreen)
 		flags = SDL_WINDOW_FULLSCREEN;
@@ -60,12 +60,13 @@ void Game::Init(const char* title, int xpos, int ypos, int width, int height, bo
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	std::cout << "Renderer created." << std::endl;
 
-	_astroid = new GameObject();
-	_astroid->OnSpawn(100, 100, true);
-
 	_screenwrap->SetScreenSize(width, height);
+#pragma endregion
 
-	_player = new GameObject();
+	for (int i = 0; i < 2; i++)
+	{
+		astroidProperties->SpawnAstroid(entityManager);
+	}
 
 	playerEntity.AddComponent <Transform>(100, 100);
 	playerEntity.AddComponent<SpriteRenderer>("Resources/playerShip.png", 90);
@@ -93,7 +94,6 @@ void Game::HandleEvents()
 			case SDLK_UP:
 			{
 				std::cout << "UP ARROW" << std::endl;
-				_player->_yvelocity -= 0.1f;
 				playerEntity.GetComponent<PhysicsComponent>().velocity += playerEntity.GetComponent<Transform>().GetForward() * 0.1f;
 				break;
 			}
@@ -102,7 +102,6 @@ void Game::HandleEvents()
 			case SDLK_DOWN:
 			{
 				std::cout << "DOWN ARROW" << std::endl;
-				_player->_yvelocity += 0.1f;
 				playerEntity.GetComponent<PhysicsComponent>().velocity -= playerEntity.GetComponent<Transform>().GetForward() * 0.1f;
 				break;
 			}
@@ -111,16 +110,10 @@ void Game::HandleEvents()
 			case SDLK_LEFT:
 			{
 				std::cout << "LEFT ARROW" << std::endl;
-				if (_player->angle < 360 || _player->angle > -360)
+				if (playerEntity.GetComponent<Transform>().angle < 360 || playerEntity.GetComponent<Transform>().angle -360)
 				{
-					_player->angle -= 1.0f;
 					playerEntity.GetComponent<Transform>().angle -= 10.0f;
 				}
-				else
-				{
-					_player->angle = 0;
-				}
-				std::cout << _player->angle << std::endl;
 				break;
 			}
 
@@ -128,16 +121,10 @@ void Game::HandleEvents()
 			case SDLK_RIGHT:
 			{
 				std::cout << "RIGHT ARROW" << std::endl;
-				if (_player->angle > 360 || _player->angle < 360)
+				if (playerEntity.GetComponent<Transform>().angle > 360 || playerEntity.GetComponent<Transform>().angle < 360)
 				{
-					_player->angle += 1.0f;
 					playerEntity.GetComponent<Transform>().angle += 10.0f;
 				}
-				else
-				{
-					_player->angle = 0;
-				}
-				std::cout << _player->angle << std::endl;
 				break;
 			}
 
@@ -177,8 +164,6 @@ void Game::Render()
 	SDL_RenderClear(renderer);
 
 	entityManager->Draw();
-	_player->Render();
-	_astroid->Render();
 
 	SDL_RenderPresent(renderer);
 }
