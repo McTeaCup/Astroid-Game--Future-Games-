@@ -13,6 +13,10 @@ public:
 	Astroid();
 	~Astroid();
 
+	/// <summary>
+	/// Spawns Astroid with constant speed and roation
+	/// </summary>
+	/// <param name="entityManager"></param>
 	void SpawnAstroid(Manager* entityManager)
 	{
 		Entity& astroid(Game::entityManager->AddEntity());
@@ -25,14 +29,21 @@ public:
 
 	}
 
+	/// <summary>
+	/// Call when astroid is destroyed
+	/// </summary>
+	/// <param name="astroidPosition"></param>
 	void OnDestroyAstroid(Eigen::Vector2f astroidPosition)
 	{
 		SpawnAstroidChildren(2, _astroidSize, astroidPosition);
 	}
 
+/// <summary>
+/// Creates smaler astroids
+/// </summary>
+/// <param name="astroidPosition"></param>
 	void SpawnAstroidChildren(int childAmount, int astroidSize, Eigen::Vector2f parentPosition)
 	{
-		//Creates 2 children
 		if (astroidSize > 1)
 		{
 			for (int i = 0; i < childAmount; i++)
@@ -68,5 +79,4 @@ public:
 
 private:
 	int _astroidSize = 3;
-	float _astroidSpeed = 1;
 };

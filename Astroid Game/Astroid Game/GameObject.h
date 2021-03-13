@@ -12,7 +12,6 @@ public:
 	void Update();
 	void Render();
 	void ObjectMovement();
-	void ScreenWraping(int Xscreen, int Yscreen);
 
 	float _xvelocity = 0;
 	float _yvelocity = 0;

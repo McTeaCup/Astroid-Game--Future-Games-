@@ -21,9 +21,9 @@ public:
 	static Manager* entityManager;
 	static SDL_Renderer* renderer;
 	static SDL_Event event;
+	bool _isRunning = false;
 
 private:
-	bool _isRunning = false;
 	SDL_Window* _window;
 };
 

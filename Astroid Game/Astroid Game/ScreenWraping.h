@@ -7,43 +7,52 @@
 class ScreenWrapign : public Component
 {
 public:
-	
-	void SetScreenSize(int xSize, int ySize)
+	/// <summary>
+	/// Gets the size of the playable window
+	/// </summary>
+	/// <param name="xSize"></param>
+	/// <param name="ySize"></param>
+	void GetScreenSize(int xSize, int ySize)
 	{
 		_screenWidhth = xSize;
 		_screenHight = ySize;
 	}
 
+	/// <summary>
+	/// Moves the object to the other side of the screen when it is about to move out of the play area
+	/// </summary>
+	/// <param name="objTransform"></param>
 	void WrapWindow(Transform* objTransform)
 	{
-		float objXpos = objTransform->position.x();
-		float objYpos = objTransform->position.y();
-
 		#pragma region Y-AxisWraping
+		
 		//Teleports up
-		if (objYpos > _screenHight)
+		if (objTransform->position.y() > _screenHight)
 		{
 			objTransform->position.y() = 0;
 		}
 
 		//Teleports down
-		if (objYpos < 0)
+		if (objTransform->position.y() < 0)
 		{
 			objTransform->position.y() = _screenHight;
 		}
+
 #pragma endregion
 		#pragma region X-AxisWraping
+
 		//Teleports up
-		if (objXpos > _screenHight)
+		if (objTransform->position.x() > _screenWidhth)
 		{
 			objTransform->position.x() = 0;
 		}
 
 		//Teleports down
-		if (objXpos < 0)
+		if (objTransform->position.x() < 0)
 		{
 			objTransform->position.x() = _screenWidhth;
 		}
+
 #pragma endregion
 	}
 
