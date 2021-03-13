@@ -13,22 +13,22 @@ public:
 
 	Transform()
 	{
-		position.x() = 0;
-		position.y() = 0;
+		position = Eigen::Vector2f(0, 0);
+		scale = Eigen::Vector2f(1, 1);
 		angle = 0;
 	}
 
 	Transform(int x, int y)
 	{
-		position.x() = x;
-		position.y() = y;
+		position = Eigen::Vector2f(x, y);
+		scale = Eigen::Vector2f(1, 1);
 		angle = 0;
 	}
 
 	Transform(float x, float y, float a)
 	{
-		position.x() = x;
-		position.y() = y;
+		position = Eigen::Vector2f(x, y);
+		scale = Eigen::Vector2f(1, 1);
 		angle = a;
 	}
 

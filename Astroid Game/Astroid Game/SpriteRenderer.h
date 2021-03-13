@@ -11,6 +11,15 @@ private:
 	SDL_Rect _srcRect;
 	SDL_Rect _dstRect;
 
+	void UpdateDestenationRect()
+	{
+		_dstRect.w = _srcRect.w * _transform->scale.x();
+		_dstRect.h = _srcRect.h * _transform->scale.y();
+
+		_dstRect.x = _transform->position.x() - _dstRect.w / 2;
+		_dstRect.y = _transform->position.y() - _dstRect.h / 2;
+	}
+
 public:
 	float offsetAngle;
 	
@@ -50,17 +59,15 @@ public:
 		SDL_QueryTexture(_texture, nullptr, nullptr, &w, &h);
 		
 		_srcRect.x = _srcRect.y = 0;
-		_srcRect.w = _dstRect.w = w;
-		_srcRect.h = _dstRect.h = h;
+		_srcRect.w = w;
+		_srcRect.h = h;
 
-		_dstRect.x = _transform->position.x() - _dstRect.w / 2;
-		_dstRect.y = _transform->position.y() - _dstRect.h / 2;
+		UpdateDestenationRect();
 	}
 
 	void Update() override
 	{
-		_dstRect.x = _transform->position.x() - _dstRect.w / 2;
-		_dstRect.y = _transform->position.y() - _dstRect.h / 2;
+		UpdateDestenationRect();
 	}
 
 	void Draw() override
