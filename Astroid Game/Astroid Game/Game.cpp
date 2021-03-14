@@ -95,7 +95,7 @@ void Game::HandleEvents()
 		}
 		
 		//Applies input to player
-		input->GetInput(playerEntity, &event);
+		input->GetInput(playerEntity, &event, tickRate);
 	}
 }
 
@@ -105,6 +105,12 @@ void Game::Update()
 	entityManager->Refresh();
 	entityManager->Update();
 
+	tickRate+= 0.015f;
+	if (input->event.key.keysym.sym == SDLK_SPACE && tickRate > 0.5f)
+	{
+		tickRate = 0;
+	}
+	
 	//Updates the screenwrapping for each entity
 	for (std::unique_ptr<Entity>& e : *entityManager->GetEntities())
 	{
