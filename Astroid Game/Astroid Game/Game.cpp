@@ -27,7 +27,7 @@ void Game::Init(const char* title, int xpos, int ypos, int width, int height, bo
 {
 	#pragma region Window Instansiation
 	//Saves the screen size
-	_screenwrap->GetScreenSize(width, height);
+	_screenwrap->SetScreenSize(width, height);
 
 	#pragma region WindowPrep
 	int flags = 0;
@@ -69,7 +69,6 @@ void Game::Init(const char* title, int xpos, int ypos, int width, int height, bo
 #pragma endregion
 
 	#pragma region Spawns Player & Astoid
-
 	//Spawn 2 Astroids
 	for (int i = 0; i < 2; i++)
 	{
@@ -78,10 +77,9 @@ void Game::Init(const char* title, int xpos, int ypos, int width, int height, bo
 
 	//Creates player in the middle of the screen
 	playerEntity.AddComponent <Transform>(width / 2, height / 2);
-	playerEntity.AddComponent<SpriteRenderer>("Resources/playerShip.png", 0);
+	playerEntity.AddComponent<SpriteRenderer>("Resources/playerShip.png", 90);
 	playerEntity.AddComponent<PhysicsComponent>();
 	_isRunning = true;
-
 #pragma endregion
 }
 
@@ -130,4 +128,24 @@ void Game::Clean()
 	SDL_DestroyWindow(_window);
 	SDL_DestroyRenderer(renderer);
 	SDL_Quit();
+}
+
+void Game::RestartGame()
+{
+	for (std::unique_ptr<Entity>& e : *entityManager->GetEntities())
+	{
+		_screenwrap->WrapWindow(&e.get()->GetComponent<Transform>());
+	}
+
+	//Spawn 2 Astroids
+	for (int i = 0; i < 2; i++)
+	{
+		astroidProperties->SpawnAstroid(entityManager);
+	}
+
+	//Creates player in the middle of the screen
+	playerEntity.AddComponent <Transform>(_screenwrap->_screenWidhth / 2, _screenwrap->_screenHight / 2);
+	playerEntity.AddComponent<SpriteRenderer>("Resources/playerShip.png", 90);
+	playerEntity.AddComponent<PhysicsComponent>();
+	_isRunning = true;
 }

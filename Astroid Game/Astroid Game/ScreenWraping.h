@@ -3,6 +3,7 @@
 #include "Components.h"
 #include "SpriteRenderer.h"
 #include "SDL.h"
+#include "Eigen/Dense"
 
 class ScreenWrapign : public Component
 {
@@ -12,7 +13,7 @@ public:
 	/// </summary>
 	/// <param name="xSize"></param>
 	/// <param name="ySize"></param>
-	void GetScreenSize(int xSize, int ySize)
+	void SetScreenSize(int xSize, int ySize)
 	{
 		_screenWidhth = xSize;
 		_screenHight = ySize;
@@ -56,7 +57,6 @@ public:
 #pragma endregion
 	}
 
-private:
 	int _screenWidhth = 0;
 	int _screenHight = 0;
 };

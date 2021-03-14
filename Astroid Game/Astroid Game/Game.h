@@ -15,6 +15,7 @@ public:
 	void Update();
 	void Render();
 	void Clean();
+	void RestartGame();
 	
 	bool Running() const {return _isRunning;}
 
