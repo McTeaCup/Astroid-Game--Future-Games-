@@ -32,53 +32,23 @@ public:
 	}
 
 	/// <summary>
-	/// Call when astroid is destroyed
+	/// Creates smaler astroids
 	/// </summary>
 	/// <param name="astroidPosition"></param>
-	void OnDestroyAstroid(Eigen::Vector2f astroidPosition)
+	void SpawnAstroidChildren(int childAmount, Eigen::Vector2f parentPosition)
 	{
-		SpawnAstroidChildren(2, _astroidSize, astroidPosition);
-	}
 
-/// <summary>
-/// Creates smaler astroids
-/// </summary>
-/// <param name="astroidPosition"></param>
-	void SpawnAstroidChildren(int childAmount, int astroidSize, Eigen::Vector2f parentPosition)
-	{
-		if (astroidSize > 1)
+		for (int i = 0; i < childAmount; i++)
 		{
-			for (int i = 0; i < childAmount; i++)
-			{
-				Entity& astroidChild(Game::entityManager->AddEntity());
-				astroidChild.AddComponent<Transform>(parentPosition.x(), parentPosition.y());
-				
-				switch (astroidSize)
-				{
-
-				case 3:
-				{
-					astroidChild.AddComponent<SpriteRenderer>("Resources/meteorGrey_med2.png");
-					break;
-				}
-
-				case 2:
-				{
-					astroidChild.AddComponent<SpriteRenderer>("Resources/meteorGrey_tiny1.png");
-					break;
-				}
-
-				default:
-					break;
-				}
-				
-				astroidChild.AddComponent<PhysicsComponent>();
-				astroidChild.GetComponent<PhysicsComponent>().velocity = Eigen::Vector2f(rand() % 2, rand() % 2);
-			}
-			astroidSize--;
+			Entity& astroidChild(Game::entityManager->AddEntity());
+			astroidChild.AddComponent<Transform>(parentPosition.x(), parentPosition.y());
+			astroidChild.AddComponent<Collider>(20);
+			astroidChild.AddComponent<SpriteRenderer>("Resources/meteorGrey_med2.png");
+			astroidChild.AddComponent<PhysicsComponent>();
+			astroidChild.AddComponent<ScreenWrapign>();
+			astroidChild.GetComponent<PhysicsComponent>().velocity = Eigen::Vector2f(rand() % 2, rand() % 4);
+			astroidChild.GetComponent<PhysicsComponent>().constRot = 3;
+			astroidChild.AddGroup(Game::Asteroids);
 		}
 	}
-
-private:
-	int _astroidSize = 3;
 };

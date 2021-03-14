@@ -118,6 +118,7 @@ void Game::Update()
 		{
 			if(Collision::TestCollision(&asteroid->GetComponent<Collider>(), &projectile->GetComponent<Collider>()))
 			{
+				astroidProperties->SpawnAstroidChildren(3, asteroid->GetComponent<Transform>().position);
 				asteroid->Destroy();
 				projectile->Destroy();
 			}
@@ -186,7 +187,7 @@ void Game::RestartGame()
 	}
 
 	//Creates player in the middle of the screen
-	playerEntity.GetComponent<Transform>().position = Eigen::Vector2f(_screenwrap->_screenWidhth / 2, _screenwrap->_screenHight / 2);
+	playerEntity.GetComponent<Transform>().position = Eigen::Vector2f(rand() % _screenwrap->_screenWidhth, rand() % _screenwrap->_screenHight);
 	playerEntity.GetComponent<Transform>().angle = -90;
 	playerEntity.GetComponent<PhysicsComponent>().velocity = Eigen::Vector2f(0, 0);
 }
