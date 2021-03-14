@@ -77,7 +77,7 @@ void Game::Init(const char* title, int xpos, int ypos, int width, int height, bo
 	}
 
 	//Creates player in the middle of the screen
-	playerEntity.AddComponent <Transform>(width / 2, height / 2);
+	playerEntity.AddComponent <Transform>(width / 2, height / 2, -90);
 	playerEntity.AddComponent<SpriteRenderer>("Resources/playerShip.png", 90);
 	playerEntity.AddComponent<PhysicsComponent>();
 	playerEntity.AddComponent<Collider>(20);
@@ -163,7 +163,12 @@ void Game::Clean()
 
 void Game::RestartGame()
 {
-	for (std::unique_ptr<Entity>& e : entityManager->GetEntities())
+	for (auto e : entityManager->GetGroup(Asteroids))
+	{
+		e->Destroy();
+	}
+
+	for (auto e : entityManager->GetGroup(Projectiles))
 	{
 		e->Destroy();
 	}
@@ -172,7 +177,7 @@ void Game::RestartGame()
 
 	for (std::unique_ptr<Entity>& e : entityManager->GetEntities())
 	{
-		_screenwrap->WrapWindow(&e.get()->GetComponent<Transform>());
+		_screenwrap->WrapWindow(&e->GetComponent<Transform>());
 	}
 
 	for (int i = 0; i < 2; i++)
@@ -181,9 +186,7 @@ void Game::RestartGame()
 	}
 
 	//Creates player in the middle of the screen
-	playerEntity.AddComponent <Transform>(_screenwrap->_screenWidhth / 2, _screenwrap->_screenHight / 2);
-	playerEntity.AddComponent<SpriteRenderer>("Resources/playerShip.png", 90);
-	playerEntity.AddComponent<PhysicsComponent>();
-	playerEntity.AddComponent<Collider>(20);
-	playerEntity.AddGroup(Player);
+	playerEntity.GetComponent<Transform>().position = Eigen::Vector2f(_screenwrap->_screenWidhth / 2, _screenwrap->_screenHight / 2);
+	playerEntity.GetComponent<Transform>().angle = -90;
+	playerEntity.GetComponent<PhysicsComponent>().velocity = Eigen::Vector2f(0, 0);
 }
