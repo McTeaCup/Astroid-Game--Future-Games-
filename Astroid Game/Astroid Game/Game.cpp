@@ -82,13 +82,6 @@ void Game::Init(const char* title, int xpos, int ypos, int width, int height, bo
 	playerEntity.AddComponent<PhysicsComponent>();
 	playerEntity.AddComponent<Collider>(20);
 	playerEntity.AddGroup(Player);
-
-	Entity& newEntity = entityManager->AddEntity();
-	newEntity.AddGroup(Player);
-	newEntity.Destroy();
-	Entity& newEntity2 = entityManager->AddEntity();
-	newEntity2.AddGroup(Asteroids);
-	newEntity2.Destroy();
 	
 	_isRunning = true;
 #pragma endregion
@@ -133,6 +126,7 @@ void Game::Update()
 		if(Collision::TestCollision(&asteroid->GetComponent<Collider>(), &playerEntity.GetComponent<Collider>()))
 		{
 			RestartGame();
+			return;
 		}
 	}
 
@@ -175,13 +169,12 @@ void Game::RestartGame()
 	}
 
 	entityManager->Refresh();
-	
+
 	for (std::unique_ptr<Entity>& e : entityManager->GetEntities())
 	{
 		_screenwrap->WrapWindow(&e.get()->GetComponent<Transform>());
 	}
 
-	//Spawn 2 Astroids
 	for (int i = 0; i < 2; i++)
 	{
 		astroidProperties->SpawnAstroid(entityManager);
@@ -193,6 +186,4 @@ void Game::RestartGame()
 	playerEntity.AddComponent<PhysicsComponent>();
 	playerEntity.AddComponent<Collider>(20);
 	playerEntity.AddGroup(Player);
-	
-	_isRunning = true;
 }
