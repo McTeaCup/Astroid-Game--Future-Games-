@@ -3,3 +3,4 @@
 #include "Transform.h"
 #include "SpriteRenderer.h"
 #include "PhysicsComponent.h"
+#include "Collider.h"

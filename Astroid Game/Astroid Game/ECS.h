@@ -7,12 +7,14 @@
 #include <bitset>
 #include <array>
 
+class Manager;
 class Component;
 class Entity;
 
 using ComponentID = std::size_t;
+using Group = std::size_t;
 
-inline ComponentID GetComponentTypeID()
+inline ComponentID GetNewComponentTypeID()
 {
 	static ComponentID lastID = 0u;
 	return lastID++;
@@ -21,13 +23,15 @@ inline ComponentID GetComponentTypeID()
 template <typename T>
 ComponentID GetComponentTypeID() noexcept
 {
-	static ComponentID typeID = GetComponentTypeID();
+	static ComponentID typeID = GetNewComponentTypeID();
 	return typeID;
 }
 
 constexpr std::size_t maxComponents = 32;
+constexpr std::size_t maxGroups = 32;
 
 using ComponentBitSet = std::bitset<maxComponents>;
+using GroupBitSet = std::bitset<maxGroups>;
 using ComponentArray = std::array<Component*, maxComponents>;
 
 class Component
@@ -55,13 +59,17 @@ public:
 class Entity
 {
 private:
+	Manager& _manager;
 	bool _active = true;
 	std::vector<std::unique_ptr<Component>> _components;
 
 	ComponentArray _componentArray;
 	ComponentBitSet _componentBitSet;
+	GroupBitSet _groupBitSet;
 
 public:
+	Entity(Manager& manager) : _manager(manager) {};
+	
 	void Update()
 	{
 		for (std::unique_ptr<Component>& c : _components) c->Update();
@@ -72,6 +80,18 @@ public:
 	}
 	bool IsActive() const { return _active; }
 	void Destroy() { _active = false; }
+
+	bool HasGroup(Group group)
+	{
+		return _groupBitSet[group];
+	}
+
+	void AddGroup(Group group);
+	
+	void RemoveGroup(Group group)
+	{
+		_groupBitSet[group] = false;
+	}
 
 	template <typename T> bool HasComponent() const
 	{
@@ -103,10 +123,12 @@ class Manager
 {
 private:
 	std::vector<std::unique_ptr<Entity>> _entities;
+	std::array<std::vector<Entity*>, maxGroups> _groupedEntities;
 
 public:
 	void Update()
 	{
+		//std::cout << "All: " <<_entities.size() << " Grouped: " << GetGroup(0).size() + GetGroup(1).size() + GetGroup(2).size() << std::endl;
 		for (std::unique_ptr < Entity>& e : _entities) e->Update();
 	}
 
@@ -117,25 +139,46 @@ public:
 
 	void Refresh()
 	{
+		for (auto i(0u); i < maxGroups; i++)
+		{
+			auto& v(_groupedEntities[i]);
+			v.erase(std::remove_if(v.begin(), v.end(), 
+				[i](Entity* entity)
+				{
+					return !entity->IsActive() || !entity->HasGroup(i);
+				}), 
+				v.end());
+		}
+		
 		_entities.erase(std::remove_if(std::begin(_entities), std::end(_entities),
-			[](const std::unique_ptr<Entity>& mEntity)
+			[](const std::unique_ptr<Entity>& entity)
 			{
-				return !mEntity->IsActive();
+				return !entity->IsActive();
 			}),
 			std::end(_entities));
 	}
 
 	Entity& AddEntity()
 	{
-		Entity* const newEntity = new Entity();
+		Entity* const newEntity = new Entity(*this);
 		std::unique_ptr<Entity> uniquePtr{ newEntity };
 		_entities.emplace_back(std::move(uniquePtr));
 
 		return *newEntity;
 	}
 
-	std::vector<std::unique_ptr<Entity>>* GetEntities()
+	void AddToGroup(Entity* entity, Group group)
 	{
-		return &_entities;
+		_groupedEntities[group].emplace_back(entity);
+	}
+
+	std::vector<Entity*>& GetGroup(Group group)
+	{
+		return _groupedEntities[group];
+	}
+
+	std::vector<std::unique_ptr<Entity>>& GetEntities()
+	{
+		return _entities;
 	}
 };

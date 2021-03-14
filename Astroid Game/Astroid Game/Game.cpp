@@ -7,6 +7,7 @@
 #include "ProjectileFactory.h"
 #include "Astroid.h"
 #include "InputManager.h"
+#include "Collision.h"
 
 #include <iostream>
 
@@ -79,6 +80,16 @@ void Game::Init(const char* title, int xpos, int ypos, int width, int height, bo
 	playerEntity.AddComponent <Transform>(width / 2, height / 2);
 	playerEntity.AddComponent<SpriteRenderer>("Resources/playerShip.png", 90);
 	playerEntity.AddComponent<PhysicsComponent>();
+	playerEntity.AddComponent<Collider>(20);
+	playerEntity.AddGroup(Player);
+
+	Entity& newEntity = entityManager->AddEntity();
+	newEntity.AddGroup(Player);
+	newEntity.Destroy();
+	Entity& newEntity2 = entityManager->AddEntity();
+	newEntity2.AddGroup(Asteroids);
+	newEntity2.Destroy();
+	
 	_isRunning = true;
 #pragma endregion
 }
@@ -105,6 +116,26 @@ void Game::Update()
 	entityManager->Refresh();
 	entityManager->Update();
 
+	auto& projectiles(entityManager->GetGroup(Projectiles));
+	auto& asteroids(entityManager->GetGroup(Asteroids));
+
+	for(auto& asteroid : asteroids)
+	{
+		for(auto& projectile : projectiles)
+		{
+			if(Collision::TestCollision(&asteroid->GetComponent<Collider>(), &projectile->GetComponent<Collider>()))
+			{
+				asteroid->Destroy();
+				projectile->Destroy();
+			}
+		}
+
+		if(Collision::TestCollision(&asteroid->GetComponent<Collider>(), &playerEntity.GetComponent<Collider>()))
+		{
+			RestartGame();
+		}
+	}
+
 	tickRate+= 0.015f;
 	if (input->event.key.keysym.sym == SDLK_SPACE && tickRate > 0.5f)
 	{
@@ -112,7 +143,7 @@ void Game::Update()
 	}
 	
 	//Updates the screenwrapping for each entity
-	for (std::unique_ptr<Entity>& e : *entityManager->GetEntities())
+	for (std::unique_ptr<Entity>& e : entityManager->GetEntities())
 	{
 		_screenwrap->WrapWindow(&e.get()->GetComponent<Transform>());
 	}
@@ -138,7 +169,14 @@ void Game::Clean()
 
 void Game::RestartGame()
 {
-	for (std::unique_ptr<Entity>& e : *entityManager->GetEntities())
+	for (std::unique_ptr<Entity>& e : entityManager->GetEntities())
+	{
+		e->Destroy();
+	}
+
+	entityManager->Refresh();
+	
+	for (std::unique_ptr<Entity>& e : entityManager->GetEntities())
 	{
 		_screenwrap->WrapWindow(&e.get()->GetComponent<Transform>());
 	}
@@ -153,5 +191,8 @@ void Game::RestartGame()
 	playerEntity.AddComponent <Transform>(_screenwrap->_screenWidhth / 2, _screenwrap->_screenHight / 2);
 	playerEntity.AddComponent<SpriteRenderer>("Resources/playerShip.png", 90);
 	playerEntity.AddComponent<PhysicsComponent>();
+	playerEntity.AddComponent<Collider>(20);
+	playerEntity.AddGroup(Player);
+	
 	_isRunning = true;
 }

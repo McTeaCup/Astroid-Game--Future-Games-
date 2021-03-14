@@ -23,10 +23,12 @@ public:
 		astroid.AddComponent<Transform>(250, 250);
 		astroid.AddComponent<SpriteRenderer>("Resources/meteorGrey_big2.png");
 		astroid.AddComponent<PhysicsComponent>();
+		astroid.AddComponent<Collider>(30);
 		astroid.AddComponent<ScreenWrapign>();
 		astroid.GetComponent<PhysicsComponent>().velocity = Eigen::Vector2f(rand() % 2, rand() % 4);
 		astroid.GetComponent<PhysicsComponent>().constRot = rand() % 3;
 
+		astroid.AddGroup(Game::Asteroids);
 	}
 
 	/// <summary>

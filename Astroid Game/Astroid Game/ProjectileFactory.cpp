@@ -9,6 +9,9 @@ Entity* ProjectileFactory::GetNew(const char* spritePath)
 	newEntity->AddComponent<Transform>(-100,-100);
 	newEntity->AddComponent<SpriteRenderer>(spritePath, 90);
 	newEntity->AddComponent<PhysicsComponent>();
+	newEntity->AddComponent<Collider>(10);
+
+	newEntity->AddGroup(Game::Projectiles);
 
 	return newEntity;
 }

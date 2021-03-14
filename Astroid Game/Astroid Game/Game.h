@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <SDL.h>
+#include <vector>
 
 class Manager;
 
@@ -24,6 +25,13 @@ public:
 	static SDL_Event event;
 	bool _isRunning = false;
 	float tickRate = 0;
+
+	enum GroupLabels : std::size_t
+	{
+		Player,
+		Asteroids,
+		Projectiles
+	};
 
 private:
 	SDL_Window* _window;
