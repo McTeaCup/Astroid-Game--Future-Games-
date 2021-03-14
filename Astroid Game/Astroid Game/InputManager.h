@@ -13,7 +13,7 @@ public:
 			//Moves player forward
 			if (event.key.keysym.sym == SDLK_UP)
 			{
-				player.GetComponent<PhysicsComponent>().velocity += player.GetComponent<Transform>().GetForward() * 0.1f;
+				player.GetComponent<PhysicsComponent>().velocity += player.GetComponent<Transform>().GetForward() * 0.2f;
 			}
 
 			//Rotates player to the right

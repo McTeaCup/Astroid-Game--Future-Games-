@@ -135,7 +135,14 @@ void Game::Update()
 
 	for(const Eigen::Vector2f position : collisionPositions)
 	{
-		astroidProperties->SpawnAstroidChildren(3, position);
+		if (rand() % 50 <= 10)
+		{
+			astroidProperties->SpawnAstroidChildren(3, position, true);
+		}
+		else
+		{
+			astroidProperties->SpawnAstroidChildren(3, position, false);
+		}
 	}
 
 	tickRate+= 0.015f;
