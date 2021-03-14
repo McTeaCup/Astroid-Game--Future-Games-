@@ -112,15 +112,17 @@ void Game::Update()
 	auto& projectiles(entityManager->GetGroup(Projectiles));
 	auto& asteroids(entityManager->GetGroup(Asteroids));
 
+	std::vector<Eigen::Vector2f> collisionPositions;
+
 	for(auto& asteroid : asteroids)
 	{
 		for(auto& projectile : projectiles)
 		{
 			if(Collision::TestCollision(&asteroid->GetComponent<Collider>(), &projectile->GetComponent<Collider>()))
 			{
-				astroidProperties->SpawnAstroidChildren(3, asteroid->GetComponent<Transform>().position);
 				asteroid->Destroy();
 				projectile->Destroy();
+				collisionPositions.emplace_back(asteroid->GetComponent<Transform>().position);
 			}
 		}
 
@@ -129,6 +131,11 @@ void Game::Update()
 			RestartGame();
 			return;
 		}
+	}
+
+	for(const Eigen::Vector2f position : collisionPositions)
+	{
+		astroidProperties->SpawnAstroidChildren(3, position);
 	}
 
 	tickRate+= 0.015f;
